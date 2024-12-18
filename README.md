@@ -4,7 +4,7 @@ A frontend implementation of the provided Figma design using Next.js and modern 
 
 ## 🚀 Live Demo
 
-[View Live Demo](your-vercel-url-here)
+[View Live Demo](https://wingman-assign.vercel.app/)
 
 ## ✨ Project Specifications Implemented
 
@@ -56,3 +56,4 @@ A frontend implementation of the provided Figma design using Next.js and modern 
 ## 🏃‍♂️ Running Locally
 
 1. Clone the repository
+[View Live Demo](https://github.com/Rahul-9211/wingman-assign)

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ChatModal from './ChatModal';
 
 interface Order {
@@ -15,120 +15,45 @@ interface Order {
   commission: string;
 }
 
-// Sample data with more orders
-const allOrders: Order[] = [
-  {
-    id: 1,
-    product: {
-      name: "Wireless Headphones",
-      image: "https://picsum.photos/200"
-    },
-    date: "24 Apr '2024",
-    time: "10:24 AM",
-    timeSpent: "2h 5m",
-    orderValue: "$120,21",
-    commission: "$55"
-  },
-  {
-    id: 2,
-    product: {
-      name: "Smart Watch Pro",
-      image: "https://picsum.photos/200"
-    },
-    date: "24 Apr '2024",
-    time: "11:30 AM",
-    timeSpent: "1h 45m",
-    orderValue: "$299,99",
-    commission: "$75"
-  },
-  {
-    id: 3,
-    product: {
-      name: "Laptop Stand",
-      image: "https://picsum.photos/200"
-    },
-    date: "23 Apr '2024",
-    time: "09:15 AM",
-    timeSpent: "45m",
-    orderValue: "$49,99",
-    commission: "$15"
-  },
-  {
-    id: 4,
-    product: {
-      name: "Mechanical Keyboard",
-      image: "https://picsum.photos/200"
-    },
-    date: "23 Apr '2024",
-    time: "14:20 PM",
-    timeSpent: "1h 15m",
-    orderValue: "$159,99",
-    commission: "$40"
-  },
-  {
-    id: 5,
-    product: {
-      name: "4K Monitor",
-      image: "https://picsum.photos/200"
-    },
-    date: "22 Apr '2024",
-    time: "16:45 PM",
-    timeSpent: "3h 20m",
-    orderValue: "$499,99",
-    commission: "$100"
-  },
-  {
-    id: 6,
-    product: {
-      name: "Wireless Mouse",
-      image: "https://picsum.photos/200"
-    },
-    date: "22 Apr '2024",
-    time: "13:10 PM",
-    timeSpent: "55m",
-    orderValue: "$79,99",
-    commission: "$20"
-  },
-  {
-    id: 7,
-    product: {
-      name: "USB-C Hub",
-      image: "https://picsum.photos/200"
-    },
-    date: "21 Apr '2024",
-    time: "11:05 AM",
-    timeSpent: "1h 30m",
-    orderValue: "$89,99",
-    commission: "$25"
-  },
-  {
-    id: 8,
-    product: {
-      name: "Webcam HD",
-      image: "https://picsum.photos/200"
-    },
-    date: "21 Apr '2024",
-    time: "09:30 AM",
-    timeSpent: "2h 10m",
-    orderValue: "$129,99",
-    commission: "$35"
-  }
-];
-
 type SortField = 'product' | 'date' | 'timeSpent' | 'orderValue' | 'commission';
 type SortOrder = 'asc' | 'desc';
 
 export default function OrdersTable() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortField, setSortField] = useState<SortField>('date');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
-  const ordersPerPage = 5;
   const [chatOpen, setChatOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  
+  const ordersPerPage = 5;
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
+
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/orders');
+      if (!response.ok) {
+        throw new Error('Failed to fetch orders');
+      }
+      const data = await response.json();
+      setOrders(data);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Sorting function
-  const sortOrders = (orders: Order[]) => {
-    return [...orders].sort((a, b) => {
+  const sortOrders = (ordersToSort: Order[]) => {
+    return [...ordersToSort].sort((a, b) => {
       let aValue: any = sortField === 'product' ? a.product.name : a[sortField];
       let bValue: any = sortField === 'product' ? b.product.name : b[sortField];
 
@@ -157,9 +82,25 @@ export default function OrdersTable() {
   // Pagination
   const indexOfLastOrder = currentPage * ordersPerPage;
   const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const sortedOrders = sortOrders(allOrders);
+  const sortedOrders = sortOrders(orders);
   const currentOrders = sortedOrders.slice(indexOfFirstOrder, indexOfLastOrder);
-  const totalPages = Math.ceil(allOrders.length / ordersPerPage);
+  const totalPages = Math.ceil(orders.length / ordersPerPage);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-red-500">Error: {error}</div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -271,7 +212,7 @@ export default function OrdersTable() {
         {/* Pagination */}
         <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100">
           <div className="text-sm text-gray-500">
-            Showing {indexOfFirstOrder + 1} to {Math.min(indexOfLastOrder, allOrders.length)} of {allOrders.length} entries
+            Showing {indexOfFirstOrder + 1} to {Math.min(indexOfLastOrder, orders.length)} of {orders.length} entries
           </div>
           <div className="flex gap-2">
             <button
@@ -283,7 +224,7 @@ export default function OrdersTable() {
             </button>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <button
-                key={page}
+                key={`page-${page}`}
                 onClick={() => setCurrentPage(page)}
                 className={`px-3 py-1 border rounded-lg ${
                   currentPage === page 

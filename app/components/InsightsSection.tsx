@@ -27,10 +27,10 @@ const comparisonData = [
 export default function InsightsSection() {
   return (<>
   <h1 className='text-3xl  py-6 px-2'>Insights</h1>
-    <div className="grid grid-cols-12 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
       {/* Consultations Chart */}
-      <div className="col-span-7 bg-white py-6 rounded-3xl border-[0.5px] drop-shadow-sm px-2">
+      <div className="col-span-1 lg:col-span-7 bg-white py-6 rounded-3xl border-[0.5px] drop-shadow-sm px-2">
         <div className="flex items-center gap-2 mb-6 px-6">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.875 4.8125C9.87364 6.05528 9.37934 7.24677 8.50056 8.12556C7.62177 9.00434 6.43028 9.49864 5.1875 9.5H1.23453C1.0398 9.49975 0.853111 9.42228 0.715413 9.28459C0.577716 9.14689 0.500248 8.9602 0.5 8.76547V4.8125C0.5 3.5693 0.99386 2.37701 1.87294 1.49794C2.75201 0.61886 3.9443 0.125 5.1875 0.125C6.4307 0.125 7.62299 0.61886 8.50206 1.49794C9.38114 2.37701 9.875 3.5693 9.875 4.8125Z" fill="#667085"/>
@@ -134,7 +134,7 @@ export default function InsightsSection() {
       </div>
 
       {/* VS Past Period */}
-      <div className="col-span-3 bg-white py-8 rounded-3xl border-[0.5px] drop-shadow-sm">
+      <div className="col-span-1 lg:col-span-3 bg-white py-8 rounded-3xl border-[0.5px] drop-shadow-sm">
         <div className="flex items-center gap-2 mb-6 px-6">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9.875 8.75C9.875 8.84946 9.83549 8.94484 9.76517 9.01517C9.69484 9.08549 9.59946 9.125 9.5 9.125H0.5C0.400544 9.125 0.305161 9.08549 0.234835 9.01517C0.164509 8.94484 0.125 8.84946 0.125 8.75C0.125 8.65054 0.164509 8.55516 0.234835 8.48483C0.305161 8.41451 0.400544 8.375 0.5 8.375H0.875V5.375C0.875 5.27554 0.914509 5.18016 0.984835 5.10983C1.05516 5.03951 1.15054 5 1.25 5H2.375C2.47446 5 2.56984 5.03951 2.64016 5.10983C2.71049 5.18016 2.75 5.27554 2.75 5.375V8.375H3.5V3.125C3.5 3.02554 3.53951 2.93016 3.60984 2.85984C3.68016 2.78951 3.77554 2.75 3.875 2.75H5.375C5.47446 2.75 5.56984 2.78951 5.64017 2.85984C5.71049 2.93016 5.75 3.02554 5.75 3.125V8.375H6.5V0.875C6.5 0.775544 6.53951 0.680161 6.60983 0.609835C6.68016 0.539509 6.77554 0.5 6.875 0.5H8.75C8.84946 0.5 8.94484 0.539509 9.01517 0.609835C9.08549 0.680161 9.125 0.775544 9.125 0.875V8.375H9.5C9.59946 8.375 9.69484 8.41451 9.76517 8.48483C9.83549 8.55516 9.875 8.65054 9.875 8.75Z" fill="#667085"/>
@@ -177,7 +177,7 @@ export default function InsightsSection() {
       </div>
 
       {/* Forecasts */}
-      <div className="col-span-2 bg-[#15B79E] p-6 rounded-3xl text-white">
+      <div className="col-span-1 lg:col-span-2 bg-[#15B79E] p-6 rounded-3xl text-white">
         <div className="flex items-center gap-2 mb-6">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor">
             <path d="M8.3125 0.875C6.24119 0.877275 4.25538 1.70111 2.79074 3.16574C1.32611 4.63038 0.502275 6.61619 0.5 8.6875V15.2758C0.500413 15.6003 0.629526 15.9115 0.859022 16.141C1.08852 16.3705 1.39966 16.4996 1.72422 16.5H8.3125C10.3845 16.5 12.3716 15.6769 13.8368 14.2118C15.3019 12.7466 16.125 10.7595 16.125 8.6875C16.125 6.6155 15.3019 4.62836 13.8368 3.16323C12.3716 1.6981 10.3845 0.875 8.3125 0.875Z"/>

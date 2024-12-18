@@ -73,7 +73,7 @@ export default function InsightsSection() {
                 dx={10}
                 tick={{ fill: '#94A3B8', fontSize: 12 }}
                 domain={[0, 20]}
-                tickFormatter={(value) => '10'}
+                tickFormatter={() => '10'}
                 label={{ value: 'EXPERTS ONLINE', angle: -90, position: 'insideRight', style: { textAnchor: 'middle', fill: '#94A3B8', fontSize: 8, opacity: 0.7 } }}
               />
               <Bar

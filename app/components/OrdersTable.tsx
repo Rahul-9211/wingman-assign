@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import ChatModal from './ChatModal';
+import Image from 'next/image';
 
 interface Order {
   id: number;
@@ -54,18 +55,14 @@ export default function OrdersTable() {
   // Sorting function
   const sortOrders = (ordersToSort: Order[]) => {
     return [...ordersToSort].sort((a, b) => {
-      let aValue: any = sortField === 'product' ? a.product.name : a[sortField];
-      let bValue: any = sortField === 'product' ? b.product.name : b[sortField];
+      const aValue = sortField === 'product' ? a.product.name : String(a[sortField as keyof Order]);
+      const bValue = sortField === 'product' ? b.product.name : String(b[sortField as keyof Order]);
 
       if (sortField === 'orderValue' || sortField === 'commission') {
-        aValue = parseFloat(aValue.replace('$', '').replace(',', ''));
-        bValue = parseFloat(bValue.replace('$', '').replace(',', ''));
+        return parseFloat(aValue.replace('$', '').replace(',', '')) - parseFloat(bValue.replace('$', '').replace(',', ''));
       }
 
-      if (sortOrder === 'asc') {
-        return aValue > bValue ? 1 : -1;
-      }
-      return aValue < bValue ? 1 : -1;
+      return aValue.localeCompare(bValue) * (sortOrder === 'asc' ? 1 : -1);
     });
   };
 
@@ -165,11 +162,12 @@ export default function OrdersTable() {
               >
                 <td className="py-4 px-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden">
-                      <img 
+                    <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden relative">
+                      <Image 
                         src={order.product.image}
                         alt={order.product.name}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                       />
                     </div>
                     <span className="text-sm text-gray-900">{order.product.name}</span>
